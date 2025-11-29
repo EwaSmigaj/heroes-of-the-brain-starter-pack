@@ -20,13 +20,19 @@
           system,
           ...
         }:
+        let
+          pythonEnv = pkgs.python3.withPackages (ps: with ps; [
+            mne
+            numpy
+          ]);
+        in
         {
           # Set formatter for nix fmt
           formatter = pkgs.nixfmt-rfc-style;
-
           devShells.default = pkgs.mkShell {
             packages = with pkgs; [
               nodejs
+              pythonEnv
             ];
           };
         };
