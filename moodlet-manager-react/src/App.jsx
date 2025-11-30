@@ -1,16 +1,15 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Header from './components/Header.jsx';
 import BrainScan from './components/BrainScan.jsx';
 import MoodSelector from './components/MoodSelector.jsx';
 import SessionPlanner from './components/SessionPlanner.jsx';
 import SessionTimer from './components/SessionTimer.jsx';
 import ProgressTracker from './components/ProgressTracker.jsx';
-import { connectHelmet, scanBrain } from './services/api.js';
+import { scanBrain } from './services/api.js';
 import { calculateMoodProgress } from './utils/scoring.js';
 
 export default function App() {
-  const [connected, setConnected] = useState(false);
   const [initialScan, setInitialScan] = useState(null);
   const [finalScan, setFinalScan] = useState(null);
   const [mood, setMood] = useState(null);
@@ -20,19 +19,19 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleConnect = async () => {
-    setError('');
-    setLoading(true);
-    try {
-      const res = await connectHelmet();
-      setConnected(res.connected);
-      if (!res.connected) throw new Error('BCI helmet not connected.');
-    } catch (e) {
-      setError(e.message || 'Failed to connect helmet.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleConnect = async () => {
+  //   setError('');
+  //   setLoading(true);
+  //   try {
+  //     const res = await connectHelmet();
+  //     setConnected(res.connected);
+  //     if (!res.connected) throw new Error('BCI helmet not connected.');
+  //   } catch (e) {
+  //     setError(e.message || 'Failed to connect helmet.');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleInitialScan = async () => {
     setError('');
@@ -73,7 +72,6 @@ export default function App() {
   };
 
   const resetAll = () => {
-    setConnected(false);
     setInitialScan(null);
     setFinalScan(null);
     setMood(null);
@@ -91,18 +89,26 @@ export default function App() {
       <main className="container">
         {error && <div className="alert error">{error}</div>}
 
-        {!connected ? (
-          <BrainScan
-            title="Connect your BCI helmet"
-            buttonLabel={loading ? 'Connecting...' : 'Connect & Scan'}
-            onAction={async () => {
-              await handleConnect();
-              if (!error) await handleInitialScan();
-            }}
-            scan={initialScan}
-            disabled={loading}
-          />
-        ) : !initialScan ? (
+        {
+        // !connected ? (
+        //   <BrainScan
+        //     title="Connect your BCI helmet"
+        //     buttonLabel={loading ? 'Connecting...' : 'Connect & Scan'}
+        //     onAction={async () => {
+        //       await handleConnect();
+        //       if (!error) await handleInitialScan();
+        //     }}
+        //     scan={initialScan}
+        //     disabled={loading}
+        //   />
+        // ) : 
+
+        !mood ? (
+          <MoodSelector onPick={setMood} />
+        ) : !selectedExercise ? (
+          <SessionPlanner mood={mood} onStart={startSession} />
+        ) :
+        !initialScan ? (
           <BrainScan
             title="Initial brain scan"
             buttonLabel={loading ? 'Scanning...' : 'Start Scan'}
@@ -110,30 +116,28 @@ export default function App() {
             scan={initialScan}
             disabled={loading}
           />
-        ) : !mood ? (
-          <MoodSelector onPick={setMood} />
-        ) : !selectedExercise ? (
-          <SessionPlanner mood={mood} onStart={startSession} />
-        ) : sessionActive ? (
+        ) : 
+        sessionActive ? (
           <SessionTimer
             exercise={selectedExercise}
             onComplete={endSession}
             onCancel={() => setSessionActive(false)}
           />
-        ) : !finalScan ? (
+        ) :
+        !finalScan ? (
           <BrainScan
-            title="Post-session scan"
-            buttonLabel={loading ? 'Scanning...' : 'Scan Again'}
-            onAction={handlePostScan}
-            scan={finalScan}
+            title="Final brain scan"
+            buttonLabel={loading ? 'Scanning...' : 'Start Scan'}
+            onAction={handleInitialScan}
+            scan={initialScan}
             disabled={loading}
           />
-        ) : (
+        )
+        : (
           <ProgressTracker
             mood={mood}
             initial={initialScan}
             final={finalScan}
-            progress={progress}
             onRestart={resetAll}
           />
         )}

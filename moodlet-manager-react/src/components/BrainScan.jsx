@@ -22,16 +22,16 @@ export default function BrainScan({ title, buttonLabel, onAction, scan, disabled
         <div className="scan-grid">
           <div className="scan-item">
             <div className="label">Alpha</div>
-            <div className="value">{scan.alpha.toFixed(1)}</div>
+            <div className="value">{scan.stressLvl.toFixed(1)}</div>
           </div>
-          <div className="scan-item">
+          {/* <div className="scan-item">
             <div className="label">Beta</div>
             <div className="value">{scan.beta.toFixed(1)}</div>
           </div>
           <div className="scan-item">
             <div className="label">Theta</div>
             <div className="value">{scan.theta.toFixed(1)}</div>
-          </div>
+          </div> */}
         </div>
       )}
     </section>

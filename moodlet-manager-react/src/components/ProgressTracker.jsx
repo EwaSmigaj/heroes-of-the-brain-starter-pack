@@ -1,7 +1,8 @@
 
+import { Minimize } from 'lucide-react';
 import React from 'react';
 
-export default function ProgressTracker({ mood, initial, final, progress, onRestart }) {
+export default function ProgressTracker({ mood, initial, final, onRestart }) {
   return (
     <section className="card">
       <h2>Results</h2>
@@ -13,25 +14,32 @@ export default function ProgressTracker({ mood, initial, final, progress, onRest
 
         <div className="progress-block">
           <div className="block-title">Improvement</div>
-          <div className="radial large" style={{ background: `conic-gradient(var(--accent) ${progress.percentage * 3.6}deg, #eee 0)` }}>
-            <div className="radial-inner">{Math.round(progress.percentage)}%</div>
+          <div className="radial large" style={{ background: `conic-gradient(var(--accent) ${(initial - final) * 3.6}deg, #eee 0)` }}>
+            <div className="radial-inner">{Math.round(Math.max(0,(initial.stressLvl - final.stressLvl)))}%</div>
           </div>
-          <div className="muted">{progress.message}</div>
+          {(() => {
+      const improvement = initial.stressLvl - final.stressLvl;
+      if (improvement >= 30) return "Excellent progress!";
+      if (improvement >= 20) return "Great job!";
+      if (improvement >= 10) return "Good work!";
+      if (improvement > 0) return "Keep it up!";
+      return "Try again next time!";
+    })()}
         </div>
 
         <div className="progress-block">
-          <div className="block-title">Scans (alpha / beta / theta)</div>
+          <div className="block-title">Scans (stressLvl)</div>
           <div className="scan-grid compact">
             <div className="scan-item">
               <div className="label">Initial</div>
               <div className="value small">
-                {initial.alpha.toFixed(1)} / {initial.beta.toFixed(1)} / {initial.theta.toFixed(1)}
+                {initial.stressLvl.toFixed(1)}
               </div>
             </div>
             <div className="scan-item">
               <div className="label">Final</div>
               <div className="value small">
-                {final.alpha.toFixed(1)} / {final.beta.toFixed(1)} / {final.theta.toFixed(1)}
+                {final.stressLvl.toFixed(1)}
               </div>
             </div>
           </div>

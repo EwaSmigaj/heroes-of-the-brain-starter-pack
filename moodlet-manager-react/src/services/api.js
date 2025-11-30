@@ -6,29 +6,40 @@ const rand = (min, max) => Math.random() * (max - min) + min;
 
 // Produce mock BCI scan: alpha, beta, theta between ranges
 const mockScan = () => ({
-  alpha: rand(35, 75),
-  beta: rand(25, 70),
-  theta: rand(20, 60)
+  stressLvl: rand(35, 75),
+  happinessLvl: rand(25, 70)
 });
-
-export async function connectHelmet() {
-  if (MOCK) {
-    await delay(600);
-    return { connected: true, device: 'MockBCI v0' };
-  }
-  const res = await fetch('/api/bci/connect', { method: 'POST' });
-  if (!res.ok) throw new Error('BCI connect failed');
-  return res.json();
-}
 
 export async function scanBrain() {
   if (MOCK) {
     await delay(800);
     return mockScan();
   }
-  const res = await fetch('/api/bci/scan');
-  if (!res.ok) throw new Error('BCI scan failed');
-  return res.json();
+  
+  // Create AbortController with 35 second timeout (5s buffer beyond expected 30s)
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 35000);
+  
+  try {
+    const res = await fetch('/api/bci/scan', {
+      signal: controller.signal,
+      // Optional: let server know client is willing to wait
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    clearTimeout(timeoutId);
+    
+    if (!res.ok) throw new Error('BCI scan failed');
+    return res.json();
+  } catch (error) {
+    clearTimeout(timeoutId);
+    if (error.name === 'AbortError') {
+      throw new Error('BCI scan timed out after 35 seconds');
+    }
+    throw error;
+  }
 }
 
 export async function startSession({ mood, exercise }) {

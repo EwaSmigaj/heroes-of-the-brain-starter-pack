@@ -2,8 +2,8 @@
 import React from 'react';
 
 const moods = [
-  { key: 'focus', title: 'Focus', desc: 'Sharpen attention and reduce distraction.', icon: '/plumbob.svg' },
-  { key: 'gratitude', title: 'Gratitude', desc: 'Foster positive, appreciative affect.', icon: '/plumbob.svg' },
+  // { key: 'focus', title: 'Focus', desc: 'Sharpen attention and reduce distraction.', icon: '/plumbob.svg' },
+  // { key: 'gratitude', title: 'Gratitude', desc: 'Foster positive, appreciative affect.', icon: '/plumbob.svg' },
   { key: 'calm', title: 'Calm', desc: 'Lower arousal and promote relaxation.', icon: '/plumbob.svg' }
 ];
 

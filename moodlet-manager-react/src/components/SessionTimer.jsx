@@ -19,16 +19,15 @@ export default function SessionTimer({ exercise, onComplete, onCancel }) {
   return (
     <section className="card">
       <h2>Session in progress</h2>
-      <div className="session-row">
-        <div className="session-name">{exercise.name}</div>
-        <div className="session-time">
-          {Math.floor(secondsLeft / 60)}:{String(secondsLeft % 60).padStart(2, '0')}
-        </div>
+      <div className="session-name">{exercise.name}</div>
+      <div className="session-time">
+        {Math.floor(secondsLeft / 60)}:{String(secondsLeft % 60).padStart(2, '0')}
       </div>
 
-      <div className="radial" style={{ background: `conic-gradient(var(--accent) ${pct * 3.6}deg, #eee 0)` }}>
+
+      {/* <div className="radial" style={{ background: `conic-gradient(var(--accent) ${pct * 3.6}deg, #eee 0)` }}>
         <div className="radial-inner">{pct}%</div>
-      </div>
+      </div> */}
 
       <div className="actions">
         <button

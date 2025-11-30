@@ -162,10 +162,18 @@ body {
   border-radius: 999px;
 }
 
-.session-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+.session-name {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.session-time {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
 }
 
 .radial {

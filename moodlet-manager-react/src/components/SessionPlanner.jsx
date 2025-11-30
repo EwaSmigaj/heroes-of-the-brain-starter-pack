@@ -13,9 +13,9 @@ const EXERCISES = {
     { id: 'photo_reflection', name: 'Photo Reflection', minutes: 5, desc: 'Reflect on meaningful moments.' }
   ],
   calm: [
-    { id: 'body_scan', name: 'Body Scan', minutes: 8, desc: 'Release tension progressively.' },
-    { id: 'slow_breath', name: 'Coherent Breathing', minutes: 10, desc: '5–6 breaths per minute.' },
-    { id: 'nature_audio', name: 'Nature Audio', minutes: 7, desc: 'Listen to calming ambient sounds.' }
+    { id: 'body_scan', name: 'Body Scan', minutes: 1, desc: 'Release tension progressively.' },
+    { id: 'slow_breath', name: 'Coherent Breathing', minutes: 1, desc: '5–6 breaths per minute.' },
+    { id: 'nature_audio', name: 'Nature Audio', minutes: 0.1, desc: 'Listen to calming ambient sounds.' }
   ]
 };
 
