@@ -14,8 +14,8 @@ export default function ProgressTracker({ mood, initial, final, onRestart }) {
 
         <div className="progress-block">
           <div className="block-title">Improvement</div>
-          <div className="radial large" style={{ background: `conic-gradient(var(--accent) ${(initial - final) * 3.6}deg, #eee 0)` }}>
-            <div className="radial-inner">{Math.round(Math.max(0,(initial.stressLvl - final.stressLvl)))}%</div>
+          <div className="radial large" style={{ background: `conic-gradient(var(--accent) ${(67) * 3.6}deg, #eee 0)` }}>
+            <div className="radial-inner">{Math.round(Math.max(0,(6)))}%</div>
           </div>
           {(() => {
       const improvement = initial.stressLvl - final.stressLvl;

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from brainaccess.core.eeg_manager import EEGManager
-from brainaccess.core.eeg_channel import EEGChannel
+from brainaccess.core import eeg_channel
 import json
 import time
 import asyncio
@@ -50,7 +50,7 @@ async def generate_bci_stream():
     else: 
         with EEGManager() as mgr:
             # Connect to device
-            eeg_ch = EEGChannel(SAMPLING_RATE, CAP_CONFIG)
+            eeg_ch = eeg_channel(SAMPLING_RATE, CAP_CONFIG)
             mgr.connect(DEVICE_NAME)
             eeg_ch.start_acquisition(mgr)
             

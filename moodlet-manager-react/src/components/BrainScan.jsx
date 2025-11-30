@@ -6,8 +6,7 @@ export default function BrainScan({ title, buttonLabel, onAction, scan, disabled
     <section className="card">
       <h2>{title}</h2>
       <p className="muted">
-        We’ll take a snapshot of general brainwave bands (alpha, beta, theta). This is a placeholder—replace with
-        your BCI SDK metrics.
+        We’ll take a snapshot of your brain state to evaluate wellness activity progress.
       </p>
       <button
         type="button"
